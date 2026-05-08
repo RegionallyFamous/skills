@@ -36,7 +36,7 @@ Preferred strip shape: one horizontal row of four landscape panels, roughly 3:1 
 
 ## Approved Logo
 
-Use `assets/the-loop-logo.png` as the default `the_loop()` masthead. It is based on the approved comp C: Dash-style dashboard mascot at left, `the_` in black, `loop` in blue, black parentheses, and a loose coral underline. Do not redraw or reinterpret the logo unless the user asks for logo exploration.
+Use `assets/the-loop-logo.png` as the default `the_loop()` masthead. It is a transparent-background PNG based on the approved comp C: Dash-style dashboard mascot at left, `the_` in black, `loop` in blue, black parentheses, and a loose coral underline. Do not redraw or reinterpret the logo unless the user asks for logo exploration.
 
 ## Recurring Production Rules
 
