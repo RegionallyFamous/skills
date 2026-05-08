@@ -57,11 +57,15 @@ The final panel should be brief enough to land like a beat, not an explanation.
 
 The masthead should not look like a speech balloon. Use a colored outline, badge, tab, or code-like wordmark. For `the_loop()`, code-flavored styling is appropriate: blue accent, rounded technical feel, and small punctuation/cursor motifs. Prefer the `code-wordmark` masthead when the title sits inside a panel; use `code-plaque` only when it has enough space away from dialogue.
 
-For final `the_loop()` strips, prefer the approved raster masthead asset with `masthead.style: "image"` and `image_path: "assets/the-loop-logo.png"`. The lettering script resolves this path relative to the skill folder. Keep it clear of speech balloons and scale it large enough that the underscore and parentheses remain readable.
+Classic strip title design works best when branding has its own territory. Treat the logo and episode title like a title panel, topper, or reserved first-panel block, not as decoration placed over the acting area.
+
+For final `the_loop()` strips, prefer the approved raster masthead asset with `masthead.style: "image"` and `image_path: "assets/the-loop-logo.png"` only when the asset has a clean transparent background or sits on a deliberately plain reserved title background. The lettering script resolves this path relative to the skill folder. Keep it clear of speech balloons and scale it so the underscore and parentheses remain readable without overpowering the gag.
 
 Reserve a title safe area in the first panel. The masthead image box, episode title, and issue marker must not touch or overlap speech balloons. The lettering script enforces this by default and accepts an explicit `masthead.safe_area` override when a custom title layout needs a different protected rectangle.
 
-For standard `the_loop()` desk scenes, split the title system: place the episode/comic name plus issue number at the top-left of the first panel, and place the `the_loop()` logo at the bottom-left of the last panel. On a `2172 x 724` strip, start with `box: [1660, 646, 1832, 708]`, `episode_position: [56, 42]`, `subtitle_size: 14-18`, `issue_position: [56, 70]`, and `safe_padding: 8`. This keeps the strip title in the natural reading position while using the logo as a recurring sign-off.
+For standard `the_loop()` desk scenes, use a first-panel title block. On a `2172 x 724` strip, start with `box: [42, 30, 272, 112]`, `episode_position: [292, 42]`, `subtitle_size: 26-30`, `issue_position: [292, 76]`, `issue_size: 18-22`, `safe_area: [28, 20, 620, 132]`, and `safe_padding: 12`. If the logo background is not clean, omit the `image_path` masthead and use a strong text-only episode title until a polished transparent logo exists.
+
+If the logo is used as a recurring sign-off inside the final panel, it must sit in intentionally empty space with at least 20px of clear margin from panel borders, speech balloons, characters, laptop screens, mugs, hands, and table edges. Keep it smaller than the smallest speech balloon and never place an opaque logo rectangle over textured art.
 
 ## Clarity QA
 
@@ -72,6 +76,8 @@ Before final delivery, inspect the rendered PNG and ask:
 - Are all important line breaks intentional?
 - Is every balloon visually centered?
 - Is the title safe area clear of every balloon and tail?
+- Does the logo have a clean transparent edge, or is it in a plain reserved title area?
+- Does the title/logo feel structurally placed rather than pasted onto the scene?
 - Are tails pointing to the correct speaker without crossing other tails?
 - Is the punchline shorter than the setup?
 - Would the text still read after the image is scaled down in chat?
