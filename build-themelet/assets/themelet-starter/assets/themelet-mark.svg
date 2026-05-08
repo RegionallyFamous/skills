@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+	<title id="title">Themelet mark</title>
+	<desc id="desc">A simple abstract mark for the themelet starter.</desc>
+	<rect width="320" height="320" fill="#f8f5ef"/>
+	<circle cx="160" cy="160" r="108" fill="#181a1f"/>
+	<path d="M92 160h136M160 92v136" stroke="#f8f5ef" stroke-width="22" stroke-linecap="square"/>
+	<path d="M104 104h112v112H104z" fill="none" stroke="#b5482f" stroke-width="14"/>
+</svg>

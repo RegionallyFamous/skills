@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Themelet"
+  short_description: "Turn static sites into WordPress themelets"
+  default_prompt: "Use $build-themelet to convert this static HTML/CSS site into an installable WordPress themelet."
