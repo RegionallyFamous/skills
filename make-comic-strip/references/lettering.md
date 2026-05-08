@@ -61,7 +61,7 @@ For final `the_loop()` strips, prefer the approved raster masthead asset with `m
 
 Reserve a title safe area in the first panel. The masthead image box, episode title, and issue marker must not touch or overlap speech balloons. The lettering script enforces this by default and accepts an explicit `masthead.safe_area` override when a custom title layout needs a different protected rectangle.
 
-For standard `the_loop()` desk scenes, split the title system: keep the `the_loop()` logo at the top of the first panel, and place only the episode/comic name plus issue number in the brown desk/table band at the bottom. On a `2172 x 724` strip, start with `box: [32, 16, 285, 108]`, `episode_position: [305, 653]`, `subtitle_size: 14-18`, `issue_position: [305, 678]`, and `safe_padding: 8`. This preserves the branded masthead while keeping the episode title out of the speech-balloon area.
+For standard `the_loop()` desk scenes, split the title system: place the episode/comic name plus issue number at the top-left of the first panel, and place the `the_loop()` logo at the bottom-left of the last panel. On a `2172 x 724` strip, start with `box: [1660, 646, 1832, 708]`, `episode_position: [56, 42]`, `subtitle_size: 14-18`, `issue_position: [56, 70]`, and `safe_padding: 8`. This keeps the strip title in the natural reading position while using the logo as a recurring sign-off.
 
 ## Clarity QA
 
