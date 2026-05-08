@@ -35,8 +35,8 @@ For `the_loop()` strips, keep the tone pro-WordPress: the joke targets the share
 4. Letter deterministically.
    - Prefer `scripts/letter_comic.py` for speech balloons, mastheads, and export PNGs.
    - For `the_loop()`, use the approved masthead asset at `assets/the-loop-logo.png` with `masthead.style: "image"`.
-   - For `the_loop()`, default to placing the masthead, episode title, and issue number in the brown desk/table band at the bottom of the first panel when the art has one.
-   - Treat the masthead, episode title, and issue number as a protected title area. Do not place speech balloons where they touch or overlap that area.
+   - For `the_loop()`, keep the logo/masthead at the top of the first panel and place only the episode/comic name plus issue number in the brown desk/table band at the bottom.
+   - Treat the logo, episode title, and issue number as protected title areas. Do not place speech balloons where they touch or overlap those areas.
    - Use `/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf` for dialogue unless the user asks for a looser hand-lettered look.
    - Use manual line breaks in every important balloon; do not rely on auto-wrapping for final polish.
    - Store the unlettered art and final lettered output together.
@@ -69,7 +69,7 @@ The spec file is JSON:
   "masthead": {
     "style": "image",
     "image_path": "assets/the-loop-logo.png",
-    "box": [120, 648, 292, 710],
+    "box": [32, 16, 285, 108],
     "episode_position": [305, 653],
     "subtitle_size": 16,
     "issue_position": [305, 678],
@@ -106,7 +106,7 @@ Read `references/lettering.md` when designing or fixing typography. Core default
 - Keep balloon tails short, avoid crossing faces, and make left-to-right reading order obvious.
 - Use a masthead style distinct from speech balloons so the title is not mistaken for dialogue.
 - Keep all balloons outside the masthead/title safe area. The lettering script rejects balloon boxes that overlap the masthead, episode title, or issue marker.
-- For `the_loop()` desk scenes, put the title group in the bottom desk band so the first-panel dialogue can use the upper acting space.
+- For `the_loop()` desk scenes, put the logo at top and the episode/comic name in the bottom desk band so the first-panel dialogue still has clear upper acting space.
 - If the final is meant for chat/social preview, export at least 2000px wide and make dialogue legible after downscaling.
 
 ## Acceptance Checks
