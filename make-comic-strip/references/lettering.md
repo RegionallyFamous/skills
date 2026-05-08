@@ -59,6 +59,10 @@ The masthead should not look like a speech balloon. Use a colored outline, badge
 
 For final `the_loop()` strips, prefer the approved raster masthead asset with `masthead.style: "image"` and `image_path: "assets/the-loop-logo.png"`. The lettering script resolves this path relative to the skill folder. Keep it clear of speech balloons and scale it large enough that the underscore and parentheses remain readable.
 
+Reserve a title safe area in the first panel. The masthead image box, episode title, and issue marker must not touch or overlap speech balloons. The lettering script enforces this by default and accepts an explicit `masthead.safe_area` override when a custom title layout needs a different protected rectangle.
+
+For standard `the_loop()` desk scenes, place the title group in the brown desk/table band at the bottom of the first panel. On a `2172 x 724` strip, start with `box: [120, 648, 292, 710]`, `episode_position: [305, 653]`, `subtitle_size: 14-16`, `issue_position: [305, 678]`, and `safe_padding: 8`. This keeps the upper panel open for dialogue and makes the masthead feel like a recurring desk sticker.
+
 ## Clarity QA
 
 Before final delivery, inspect the rendered PNG and ask:
@@ -67,6 +71,7 @@ Before final delivery, inspect the rendered PNG and ask:
 - Does each balloon contain one clear thought?
 - Are all important line breaks intentional?
 - Is every balloon visually centered?
+- Is the title safe area clear of every balloon and tail?
 - Are tails pointing to the correct speaker without crossing other tails?
 - Is the punchline shorter than the setup?
 - Would the text still read after the image is scaled down in chat?

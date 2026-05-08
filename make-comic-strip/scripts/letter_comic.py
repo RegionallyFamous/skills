@@ -102,6 +102,87 @@ def fit_text(
     return font, wrap_text(draw, text, font, max_width), round(min_size * 0.18)
 
 
+def padded_rect(rect: tuple[int, int, int, int], padding: int) -> tuple[int, int, int, int]:
+    x1, y1, x2, y2 = rect
+    return (x1 - padding, y1 - padding, x2 + padding, y2 + padding)
+
+
+def rects_intersect(first: tuple[int, int, int, int], second: tuple[int, int, int, int]) -> bool:
+    return first[0] < second[2] and first[2] > second[0] and first[1] < second[3] and first[3] > second[1]
+
+
+def text_rect(draw: ImageDraw.ImageDraw, position: tuple[int, int], text: str, font: ImageFont.FreeTypeFont) -> tuple[int, int, int, int]:
+    x, y = position
+    box = draw.textbbox((x, y), text, font=font)
+    return (box[0], box[1], box[2], box[3])
+
+
+def masthead_safe_rects(
+    draw: ImageDraw.ImageDraw,
+    image_size: tuple[int, int],
+    spec: dict,
+) -> list[tuple[int, int, int, int]]:
+    if not spec.get("title"):
+        return []
+
+    width, height = image_size
+    masthead = spec.get("masthead", {})
+    if masthead.get("enforce_safe_area", True) is False:
+        return []
+
+    padding = int(masthead.get("safe_padding", 6))
+    safe_area = masthead.get("safe_area")
+    if safe_area:
+        return [padded_rect(scaled_box(safe_area, width, height), padding)]
+
+    x1, y1, x2, y2 = scaled_box(masthead.get("box", [34, 20, 380, 112]), width, height)
+    style = masthead.get("style", "code-plaque")
+    rects = [padded_rect((x1, y1, x2, y2), padding)]
+
+    if spec.get("episode_title"):
+        if style == "image":
+            sx, sy = scaled_box(masthead.get("episode_position", [x1, y2 + 4]), width, height)
+            subtitle_size = int(masthead.get("subtitle_size", 22))
+        elif style == "code-wordmark":
+            sx, sy = x1 + 42, y1 + 63
+            subtitle_size = int(masthead.get("subtitle_size", 22))
+        elif style == "code-plaque":
+            sx, sy = x1 + 24, y2 - 33
+            subtitle_size = int(masthead.get("subtitle_size", 23))
+        else:
+            sx, sy = x1, y2 + 4
+            subtitle_size = int(masthead.get("subtitle_size", 22))
+        subtitle_font = load_font(masthead.get("subtitle_font", DEFAULT_FALLBACK_FONT), subtitle_size)
+        rects.append(padded_rect(text_rect(draw, (sx, sy), spec["episode_title"], subtitle_font), padding))
+
+    if spec.get("issue"):
+        issue_font = load_font(masthead.get("issue_font", DEFAULT_FALLBACK_FONT), int(masthead.get("issue_size", 24)))
+        ix, iy = scaled_box(masthead.get("issue_position", [width - 130, 30]), width, height)
+        rects.append(padded_rect(text_rect(draw, (ix, iy), spec["issue"], issue_font), padding))
+
+    return rects
+
+
+def validate_title_safe_area(
+    draw: ImageDraw.ImageDraw,
+    image_size: tuple[int, int],
+    spec: dict,
+) -> None:
+    safe_rects = masthead_safe_rects(draw, image_size, spec)
+    if not safe_rects:
+        return
+
+    width, height = image_size
+    for index, item in enumerate(spec.get("balloons", []), start=1):
+        balloon_rect = scaled_box(item["box"], width, height)
+        for safe_rect in safe_rects:
+            if rects_intersect(balloon_rect, safe_rect):
+                raise ValueError(
+                    f"balloon {index} overlaps the masthead/title safe area; "
+                    "move the balloon below or outside the title block, or set masthead.safe_area explicitly"
+                )
+
+
 def draw_balloon(
     draw: ImageDraw.ImageDraw,
     image_size: tuple[int, int],
@@ -263,6 +344,7 @@ def main() -> None:
     image = Image.open(args.input).convert("RGBA")
     draw = ImageDraw.Draw(image)
 
+    validate_title_safe_area(draw, image.size, spec)
     draw_masthead(image, draw, image.size, spec, args.title_font)
     for item in spec.get("balloons", []):
         draw_balloon(draw, image.size, item, args.dialogue_font, args.bold_font)
