@@ -5,6 +5,7 @@ Reusable Codex skills from Regionally Famous.
 ## Skills
 
 - `build-themelet`: Convert static HTML/CSS sites into tiny installable WordPress themelets.
+- `make-comic-strip`: Create and letter readable comic strips with reusable mastheads, speech balloons, and polished typography.
 
 ## Layout
 
@@ -17,6 +18,12 @@ skills/
 |   |-- agents/
 |   |-- assets/
 |   `-- references/
+|-- make-comic-strip/
+|   |-- SKILL.md
+|   |-- agents/
+|   |-- assets/
+|   |-- references/
+|   `-- scripts/
 `-- README.md
 ```
 

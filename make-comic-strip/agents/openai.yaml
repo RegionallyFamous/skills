@@ -1,0 +1,4 @@
+interface:
+  display_name: "Make Comic Strip"
+  short_description: "Create and letter readable comic strips."
+  default_prompt: "Create a polished comic strip with generated art, clean typography, speech balloon placement, and export-ready files."
