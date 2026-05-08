@@ -43,4 +43,4 @@ Use `assets/the-loop-logo.png` as the default `the_loop()` masthead. It is based
 - Generate art without readable text.
 - Letter titles and dialogue afterward.
 - Use abstract WordPress-like UI, not exact admin screenshots or official logos unless explicitly approved.
-- Keep laptop screens physically plausible.
+- Keep laptop screens physically plausible: UI can appear only on the inner screen. The outside back lid of a laptop must stay plain, especially when it faces the viewer while Paige or Dash are on the opposite side.

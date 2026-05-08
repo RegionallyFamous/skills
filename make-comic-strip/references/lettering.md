@@ -82,4 +82,4 @@ If any answer is no, rewrite the text or reposition balloons and export again.
 
 Prompt image models for blank balloons or no balloons, blank screens, and abstract UI blocks. Add all readable text afterward. If the generated art includes incorrect text or backwards screen text, regenerate or cover it before lettering.
 
-For laptop scenes, specify: "the screen is on the inside of the open laptop and faces the user; if viewed from behind, show only the plain back of the display."
+For laptop scenes, specify: "the screen is on the inside of the open laptop and faces the user; if viewed from behind, show only the plain back of the display." Make this explicit in every laptop prompt: the outside back lid is plain dark gray or neutral, with no UI blocks, browser chrome, buttons, glow, page layouts, check marks, or screen content. If the viewer is looking at the opposite side from Paige/Dash, the visible laptop surface must be the plain back lid.

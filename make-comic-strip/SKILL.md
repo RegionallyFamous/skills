@@ -24,10 +24,12 @@ For `the_loop()` strips, keep the tone pro-WordPress: the joke targets the share
    - Use the image-generation skill when bitmap art is needed.
    - Prompt for no readable words, no letters, no numbers, no speech-balloon text, and no screen text.
    - Ask for blank/abstract UI screens; never put the joke on a generated screen.
-   - For laptop/computer scenes, explicitly specify which side the screen faces.
+   - For laptop/computer scenes, explicitly specify which side the screen faces. If the outside back lid faces the viewer, it must be a plain lid with no UI blocks, browser chrome, buttons, glow, page layouts, or screen content.
+   - When characters are behind or across from a laptop, the viewer should see only the plain back lid; visible screen UI is allowed only when the viewer is on the same side as the characters.
 
 3. Inspect the art before lettering.
    - Check panel order, character consistency, screen orientation, empty balloon space, and whether the action reads without text.
+   - Reject and regenerate any art where UI/content appears on the outside back of a laptop.
    - Regenerate the art before lettering if a physical object is wrong or the panel flow is confusing.
 
 4. Letter deterministically.
@@ -116,4 +118,5 @@ Read `references/lettering.md` when designing or fixing typography. Core default
 - The title area never overlaps or touches a speech balloon.
 - Balloons point to the correct speaker and do not cover important expressions.
 - Screens, props, and UI are physically plausible.
+- Laptop backs are plain lids; all UI appears only on inner screens that face the characters/viewer correctly.
 - The final file and unlettered art are both saved in the project.
