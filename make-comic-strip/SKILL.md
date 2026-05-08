@@ -34,9 +34,9 @@ For `the_loop()` strips, keep the tone pro-WordPress: the joke targets the share
 
 4. Letter deterministically.
    - Prefer `scripts/letter_comic.py` for speech balloons, mastheads, and export PNGs.
-   - For `the_loop()`, use the approved masthead asset at `assets/the-loop-logo.png` only when it has a clean transparent background or is placed in a reserved plain title area. If the logo has an opaque background, do not paste it over textured art.
-   - For `the_loop()`, reserve real title space like a classic newspaper strip: a small title panel, top-left first-panel title area, or clean topper/title band. Do not treat the logo as a floating sticker inside the acting area.
-   - If the logo appears inside the strip, keep it clearly secondary to dialogue, place it in unused space with generous margins, and protect it with a safe area. If the background removal is not clean, omit the logo from the strip and use the text title instead until a clean asset exists.
+   - For `the_loop()`, use the approved #011 daily-strip layout in `references/the-loop-layout.md`: one 2172x724 strip, four equal panels, the transparent `assets/the-loop-logo.png` in the top-left of panel 1, and the episode title plus issue number to its right.
+   - Reserve real title space like a classic newspaper strip. Do not treat the logo as a floating sticker inside the acting area, and do not place a second logo in the last panel unless the user asks for a special variant.
+   - If the logo background is ever not clean, omit the logo from the strip and use the text title until a polished transparent asset exists.
    - Treat the logo, episode title, and issue number as protected title areas. Do not place speech balloons where they touch or overlap those areas.
    - Use `/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf` for dialogue unless the user asks for a looser hand-lettered look.
    - Use manual line breaks in every important balloon; do not rely on auto-wrapping for final polish.
@@ -70,13 +70,15 @@ The spec file is JSON:
   "masthead": {
     "style": "image",
     "image_path": "assets/the-loop-logo.png",
-    "box": [42, 30, 272, 112],
-    "episode_position": [292, 42],
-    "subtitle_size": 28,
-    "issue_position": [292, 76],
-    "issue_size": 18,
-    "safe_area": [28, 20, 620, 132],
-    "safe_padding": 12
+    "box": [42, 24, 292, 114],
+    "anchor": "left",
+    "episode_position": [315, 40],
+    "subtitle_size": 30,
+    "issue_position": [316, 78],
+    "issue_size": 21,
+    "safe_padding": 12,
+    "subtitle_font": "/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf",
+    "issue_font": "/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf"
   },
   "balloons": [
     {
@@ -108,7 +110,7 @@ Read `references/lettering.md` when designing or fixing typography. Core default
 - Keep balloon tails short, avoid crossing faces, and make left-to-right reading order obvious.
 - Use a masthead style distinct from speech balloons so the title is not mistaken for dialogue.
 - Keep all balloons outside the masthead/title safe area. The lettering script rejects balloon boxes that overlap the masthead, episode title, or issue marker.
-- For `the_loop()` desk scenes, put the episode/comic name in a reserved top-left title area of panel 1. Use the logo only in a clean reserved area or with a polished transparent asset; otherwise leave the logo out and keep the episode title strong.
+- For `the_loop()` desk scenes, use the #011 first-panel masthead layout from `references/the-loop-layout.md`.
 - If the final is meant for chat/social preview, export at least 2000px wide and make dialogue legible after downscaling.
 
 ## Acceptance Checks
@@ -117,6 +119,7 @@ Read `references/lettering.md` when designing or fixing typography. Core default
 - The text is polished: short, direct, manually line-broken, visually centered, and readable at preview size.
 - All dialogue is real overlay text, not generated-image text.
 - The masthead, issue marker, and episode title are readable but do not steal attention from the gag.
+- `the_loop()` strips use the #011 first-panel masthead layout unless the user asks for a variant.
 - The title area never overlaps or touches a speech balloon.
 - The logo never appears as an opaque white box over textured art, character art, props, or panel backgrounds.
 - Balloons point to the correct speaker and do not cover important expressions.

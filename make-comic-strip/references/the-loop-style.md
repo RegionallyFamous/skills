@@ -34,6 +34,10 @@ Classic newspaper comic strip energy: simple staging, clean ink outlines, flat w
 
 Preferred strip shape: one horizontal row of four landscape panels, roughly 3:1 overall. Preserve enough upper space for balloons, but do not leave giant empty vertical areas.
 
+## Approved Daily Layout
+
+Use `references/the-loop-layout.md` as the default production layout for finished `the_loop()` strips. The #011 layout is the approved baseline: 2172x724, four equal panels, transparent logo plus episode title and issue number in the first panel's reserved masthead area, no final-panel logo unless the user asks for a special variant.
+
 ## Approved Logo
 
 Use `assets/the-loop-logo.png` as the default `the_loop()` masthead. It is a transparent-background PNG based on the approved comp C: Dash-style dashboard mascot at left, `the_` in black, `loop` in blue, black parentheses, and a loose coral underline. Do not redraw or reinterpret the logo unless the user asks for logo exploration.

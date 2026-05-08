@@ -63,9 +63,9 @@ For final `the_loop()` strips, prefer the approved raster masthead asset with `m
 
 Reserve a title safe area in the first panel. The masthead image box, episode title, and issue marker must not touch or overlap speech balloons. The lettering script enforces this by default and accepts an explicit `masthead.safe_area` override when a custom title layout needs a different protected rectangle.
 
-For standard `the_loop()` desk scenes, use a first-panel title block. On a `2172 x 724` strip, start with `box: [42, 30, 272, 112]`, `episode_position: [292, 42]`, `subtitle_size: 26-30`, `issue_position: [292, 76]`, `issue_size: 18-22`, `safe_area: [28, 20, 620, 132]`, and `safe_padding: 12`. If the logo background is not clean, omit the `image_path` masthead and use a strong text-only episode title until a polished transparent logo exists.
+For standard `the_loop()` desk scenes, use the approved #011 first-panel masthead layout from `references/the-loop-layout.md`. On a `2172 x 724` strip, start with `box: [42, 24, 292, 114]`, `episode_position: [315, 40]`, `subtitle_size: 30`, `issue_position: [316, 78]`, `issue_size: 21`, and `safe_padding: 12`. If the logo background is not clean, omit the `image_path` masthead and use a strong text-only episode title until a polished transparent logo exists.
 
-If the logo is used as a recurring sign-off inside the final panel, it must sit in intentionally empty space with at least 20px of clear margin from panel borders, speech balloons, characters, laptop screens, mugs, hands, and table edges. Keep it smaller than the smallest speech balloon and never place an opaque logo rectangle over textured art.
+Do not add a second logo as a recurring sign-off inside the final panel by default. If the user asks for a special sign-off variant, it must sit in intentionally empty space with at least 20px of clear margin from panel borders, speech balloons, characters, laptop screens, mugs, hands, and table edges. Keep it smaller than the smallest speech balloon and never place an opaque logo rectangle over textured art.
 
 ## Clarity QA
 
@@ -76,6 +76,7 @@ Before final delivery, inspect the rendered PNG and ask:
 - Are all important line breaks intentional?
 - Is every balloon visually centered?
 - Is the title safe area clear of every balloon and tail?
+- Does the title layout match the #011 first-panel masthead unless the user asked for a variant?
 - Does the logo have a clean transparent edge, or is it in a plain reserved title area?
 - Does the title/logo feel structurally placed rather than pasted onto the scene?
 - Are tails pointing to the correct speaker without crossing other tails?
