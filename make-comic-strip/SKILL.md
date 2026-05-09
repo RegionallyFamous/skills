@@ -11,6 +11,25 @@ Create comics in two passes: generate or assemble clean art first, then add all 
 
 For `the_loop()` strips, keep the tone pro-WordPress: the joke targets the shared website-building moment, not WordPress or its users. Read `references/the-loop-style.md` before writing or generating `the_loop()` material.
 
+## the_loop() Production System
+
+For ongoing `the_loop()` work, keep reusable process files in this skill and live series state in the project production folder:
+
+- Project production folder: `/Users/nick/Documents/Projects/WordPress.org/outputs/the_loop/production/`
+- Canonical tracker: `episodes.json`
+- Series bible: `series-bible.md`
+- Easter egg registry: `easter-eggs.json`
+- QA checklist: `qa-checklist.md`
+
+Use these helper scripts when making or reviewing batches:
+
+- `scripts/new_episode.py`: creates the next numbered episode folder, appends starter metadata, and writes a strip brief.
+- `scripts/lint_episode.py`: validates required fields, status, duplicate issue/slug, Paige glasses QA, laptop-screen notes, final image path, and lettering spec.
+- `scripts/build_contact_sheet.py`: creates a batch review sheet from recorded final images.
+- `scripts/build_qa_crops.py`: creates face, laptop, and lettering crop sheets for visual QA.
+
+New `the_loop()` briefs should include one clear WordPress/workflow premise, four panel beats, Paige/Dash continuity rules, no generated readable text, laptop screen orientation instructions, and one optional subtle easter egg slot.
+
 ## Workflow
 
 1. Write the strip before making art.

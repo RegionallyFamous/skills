@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "series": "the_loop()",
+  "density": "one subtle easter egg maximum per strip",
+  "rules": [
+    "Reward repeat readers without making the detail required for the joke.",
+    "Keep each detail small, visual, and quiet.",
+    "Avoid readable generated text unless it is added deterministically after art generation.",
+    "Do not repeat the same hidden joke too often.",
+    "Never place an easter egg where it competes with speech balloons, title, logo, or acting."
+  ],
+  "registry": [
+    {
+      "id": "notebook-sticker-topic",
+      "name": "Paige notebook stickers",
+      "type": "prop",
+      "description": "Tiny notebook stickers change by topic: hook, block, cache, revision, upload, shield, calendar, or form.",
+      "cooldown_issues": 3,
+      "last_used_issue": null
+    },
+    {
+      "id": "dash-badge-number",
+      "name": "Dash badge number",
+      "type": "character detail",
+      "description": "Dash's small notification badge occasionally matches the issue number or a panel beat.",
+      "cooldown_issues": 4,
+      "last_used_issue": null
+    },
+    {
+      "id": "background-books",
+      "name": "Background book spines",
+      "type": "setting",
+      "description": "Tiny bookshelf titles such as The Codex, Cache-22, Hooks & Ladders, and Template Tags.",
+      "cooldown_issues": 5,
+      "last_used_issue": null
+    },
+    {
+      "id": "sidebar-topic-icons",
+      "name": "Topic-aware sidebar icons",
+      "type": "ui detail",
+      "description": "Admin-sidebar icons subtly reflect the episode topic without becoming exact readable UI.",
+      "cooldown_issues": 2,
+      "last_used_issue": null
+    },
+    {
+      "id": "category-mug-color",
+      "name": "Category coffee mug",
+      "type": "prop",
+      "description": "Paige's mug color marks the topic category: publishing, design, plugins, maintenance, forms, or performance.",
+      "cooldown_issues": 1,
+      "last_used_issue": null
+    },
+    {
+      "id": "faux-slug-prop",
+      "name": "Faux paper slug",
+      "type": "prop",
+      "description": "A small paper prop hints at a fake slug related to the premise, never large enough to steal focus.",
+      "cooldown_issues": 4,
+      "last_used_issue": null
+    }
+  ],
+  "usage": []
+}

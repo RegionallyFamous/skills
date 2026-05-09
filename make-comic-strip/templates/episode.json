@@ -1,0 +1,34 @@
+{
+  "issue": "{{ISSUE}}",
+  "slug": "{{SLUG}}",
+  "title": "{{TITLE}}",
+  "status": "idea",
+  "premise": "{{PREMISE}}",
+  "script_beats": [
+    "Panel 1 setup: {{PANEL_1}}",
+    "Panel 2 complication: {{PANEL_2}}",
+    "Panel 3 escalation: {{PANEL_3}}",
+    "Panel 4 turn: {{PANEL_4}}"
+  ],
+  "assets": {
+    "folder": "../comics/{{ISSUE}}-{{SLUG}}",
+    "art": "../comics/{{ISSUE}}-{{SLUG}}/the_loop-{{ISSUE}}-{{SLUG}}-art.png",
+    "lettering": "../comics/{{ISSUE}}-{{SLUG}}/the_loop-{{ISSUE}}-{{SLUG}}-lettering.json",
+    "final": "../comics/{{ISSUE}}-{{SLUG}}/the_loop-{{ISSUE}}-{{SLUG}}-final.png"
+  },
+  "qa": {
+    "paige_glasses": "required",
+    "laptop_screen_direction": "required",
+    "generated_text": "no generated readable text",
+    "lettering": "pending",
+    "status": "pending"
+  },
+  "easter_eggs": [
+    "{{EASTER_EGG_ID}}"
+  ],
+  "publication": {
+    "date": null,
+    "url": null,
+    "notes": ""
+  }
+}
