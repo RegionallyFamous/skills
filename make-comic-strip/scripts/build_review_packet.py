@@ -140,7 +140,7 @@ def write_review_markdown(path: Path, episodes: list[dict], artifacts: dict[str,
             [
                 f"### {episode['issue']} {episode['title']}",
                 "",
-                "- [ ] Paige glasses align in every visible face.",
+                "- [ ] Paige has no glasses or eyewear in every visible face.",
                 "- [ ] Laptop screens and back lids make physical sense.",
                 "- [ ] Speech balloons are readable and centered.",
                 "- [ ] Final panel joke lands cleanly.",

@@ -219,11 +219,11 @@ def validate_episode(production_dir: Path, episode: dict, statuses: set[str], er
                 add_error(errors, episode_id, f"final image must be {EXPECTED_SIZE[0]}x{EXPECTED_SIZE[1]}, got {image.width}x{image.height}")
 
     qa = check_required_object(errors, episode_id, episode, "qa")
-    paige_glasses = qa.get("paige_glasses")
-    if paige_glasses not in {"required", "planned", "verified", "not_applicable"}:
-        add_error(errors, episode_id, "missing Paige glasses requirement or verification")
-    elif status in QA_ARTIFACT_STATUSES and paige_glasses != "verified":
-        add_error(errors, episode_id, "qa_ready/approved episodes must verify Paige glasses")
+    paige_no_glasses = qa.get("paige_no_glasses")
+    if paige_no_glasses not in {"required", "planned", "verified", "not_applicable"}:
+        add_error(errors, episode_id, "missing Paige no-glasses requirement or verification")
+    elif status in QA_ARTIFACT_STATUSES and paige_no_glasses != "verified":
+        add_error(errors, episode_id, "qa_ready/approved episodes must verify Paige has no glasses")
 
     laptop_note = qa.get("laptop_screen_direction")
     if laptop_note not in {"required", "planned", "verified", "not_applicable"}:

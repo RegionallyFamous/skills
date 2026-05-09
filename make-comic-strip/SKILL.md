@@ -25,7 +25,7 @@ Use these helper scripts when making or reviewing batches:
 
 - `scripts/new_episode.py`: creates the next numbered episode folder, appends starter metadata, and writes a strip brief.
 - `scripts/migrate_canonical_assets.py`: migrates existing strips to canonical `art`, `lettering`, and `final` filenames while preserving older assets as variants.
-- `scripts/lint_episode.py`: validates required fields, status, duplicate issue/slug, canonical filenames, exact dimensions, Paige glasses QA, laptop-screen notes, QA artifacts, defects, and approval state.
+- `scripts/lint_episode.py`: validates required fields, status, duplicate issue/slug, canonical filenames, exact dimensions, Paige no-glasses QA, laptop-screen notes, QA artifacts, defects, and approval state.
 - `scripts/build_contact_sheet.py`: creates a batch review sheet from recorded final images.
 - `scripts/build_qa_crops.py`: creates all-panel face, laptop, and lettering crop sheets for visual QA.
 - `scripts/build_review_packet.py`: creates a batch review packet and moves Codex-checked episodes to `qa_ready`.
@@ -47,17 +47,17 @@ Codex can mark an episode `qa_ready` after lint and review artifacts pass. Only 
 2. Generate unlettered art.
    - Use the image-generation skill when bitmap art is needed.
    - Prompt for no readable words, no letters, no numbers, no speech-balloon text, and no screen text.
-   - For `the_loop()`, explicitly prompt Paige Post with rounded dark-rimmed glasses every time she appears; glasses are mandatory character continuity, not optional styling.
+   - For `the_loop()`, explicitly prompt Paige Post without glasses every time she appears; glasses are no longer part of her design.
    - Ask for blank/abstract UI screens; never put the joke on a generated screen.
    - For laptop/computer scenes, explicitly specify which side the screen faces. If the outside back lid faces the viewer, it must be a plain lid with no UI blocks, browser chrome, buttons, glow, page layouts, or screen content.
    - When characters are behind or across from a laptop, the viewer should see only the plain back lid; visible screen UI is allowed only when the viewer is on the same side as the characters.
 
 3. Inspect the art before lettering.
    - Check panel order, character consistency, screen orientation, empty balloon space, and whether the action reads without text.
-   - For Paige Post, reject or repair any appearance without visible rounded dark-rimmed glasses, including side views and tiny background poses.
+   - For Paige Post, reject and regenerate any appearance that gives her glasses, sunglasses, goggles, or other eyewear.
    - Reject and regenerate any art where UI/content appears on the outside back of a laptop.
    - Regenerate the art before lettering if a physical object is wrong or the panel flow is confusing.
-   - Treat bad Paige glasses, face consistency, hands, laptop orientation, or screen logic as blocker defects. Regenerate first; use manual repair only as a recorded exception with before/after QA crops.
+   - Treat Paige eyewear, face consistency, hands, laptop orientation, or screen logic problems as blocker defects. Regenerate first; use manual repair only as a recorded exception with before/after QA crops.
 
 4. Letter deterministically.
    - Prefer `scripts/letter_comic.py` for speech balloons, mastheads, and export PNGs.

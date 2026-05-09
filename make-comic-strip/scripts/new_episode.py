@@ -95,7 +95,7 @@ def make_entry(issue: str, slug: str, title: str, premise: str, easter_egg: str)
             "final": f"{folder}/the_loop-{issue}-{slug}-final.png",
         },
         "qa": {
-            "paige_glasses": "required",
+            "paige_no_glasses": "required",
             "laptop_screen_direction": "required",
             "generated_text": "no generated readable text",
             "lettering": "pending",

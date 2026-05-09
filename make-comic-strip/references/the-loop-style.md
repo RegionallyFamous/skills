@@ -23,9 +23,9 @@ Prefer:
 ## Core Characters
 
 Paige Post:
-Warm, capable editor/publisher and the human point of view. Rounded friendly face, expressive eyes, tidy bob or tied-back hair, coral cardigan/jacket, laptop or editor notebook. Paige must always wear glasses in every appearance: rounded dark-rimmed editor glasses are a core continuity anchor, not an optional accessory. Keep the glasses visible in front views, three-quarter views, side/profile views, tiny background poses, and expression sheets. Starts with a practical publishing goal and reacts honestly when the web gets weird.
+Warm, capable editor/publisher and the human point of view. Rounded friendly face, expressive eyes, tidy bob or tied-back hair, coral cardigan/jacket, laptop or editor notebook. Paige does not wear glasses; do not give her glasses, sunglasses, goggles, or any eyewear in front views, three-quarter views, side/profile views, tiny background poses, or expression sheets. Starts with a practical publishing goal and reacts honestly when the web gets weird.
 
-When repairing glasses in existing art, do not use a generic centered glasses stamp. Fit each lens to Paige's actual eye positions and head angle, and inspect enlarged face crops before exporting the final strip.
+If generated art adds eyewear to Paige, reject and regenerate the art before lettering. Do not spend production time trying to repair recurring eyewear problems.
 
 Dash Board:
 Friendly personified dashboard helper. Rounded blue-and-white dashboard tile body, UI-symbol face, cursor-like hands, small notification badge. Earnest, literal, helpful, never snarky. Dash often states a technically true thing as if it were emotionally significant.

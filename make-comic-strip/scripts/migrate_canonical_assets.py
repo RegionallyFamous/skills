@@ -113,19 +113,6 @@ def pending_approval() -> dict:
     }
 
 
-def manual_repair_defect(production_dir: Path) -> dict:
-    return {
-        "area": "paige_glasses",
-        "severity": "blocker",
-        "description": "Panel 3 Paige glasses drifted below her eyes in the previous approved final.",
-        "status": "resolved",
-        "resolution_method": "manual_repair_exception",
-        "resolution_notes": "Used normalized art as the base, redrew only the panel 3 glasses, relettered, and generated before/after crop sheets.",
-        "before": "../comics/001-cache-me-if-you-can/the_loop-001-cache-me-if-you-can-glasses-crops-before.png",
-        "after": "../comics/001-cache-me-if-you-can/the_loop-001-cache-me-if-you-can-glasses-crops-fixed.png",
-    }
-
-
 def migrate_episode(production_dir: Path, episode: dict, dry_run: bool) -> list[str]:
     issue = episode["issue"]
     slug = episode["slug"]
@@ -187,12 +174,9 @@ def migrate_episode(production_dir: Path, episode: dict, dry_run: bool) -> list[
     episode["qa_artifacts"] = pending_artifacts()
     episode["approval"] = pending_approval()
     episode.setdefault("defects", [])
-    if issue == "001" and not any(
-        item.get("area") == "paige_glasses" and item.get("resolution_method") == "manual_repair_exception"
-        for item in episode["defects"]
-    ):
-        episode["defects"].append(manual_repair_defect(production_dir))
     episode["qa"]["status"] = "qa_needed"
+    episode["qa"].pop("paige_glasses", None)
+    episode["qa"].setdefault("paige_no_glasses", "required")
     return messages
 
 
