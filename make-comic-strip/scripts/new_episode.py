@@ -17,6 +17,7 @@ STATUSES = [
     "art_draft",
     "lettered",
     "qa_needed",
+    "qa_ready",
     "approved",
     "published",
     "retired",
@@ -100,6 +101,27 @@ def make_entry(issue: str, slug: str, title: str, premise: str, easter_egg: str)
             "lettering": "pending",
             "status": "pending",
         },
+        "qa_artifacts": {
+            "review_packet": None,
+            "contact_sheet": None,
+            "qa_crops": None,
+            "thumbnail_preview": None,
+            "lint_report": None,
+        },
+        "approval": {
+            "codex_qa": {
+                "status": "pending",
+                "date": None,
+                "notes": "",
+            },
+            "human": {
+                "status": "pending",
+                "reviewer": "Nick",
+                "date": None,
+                "notes": "",
+            },
+        },
+        "defects": [],
         "easter_eggs": [easter_egg] if easter_egg else [],
         "publication": {
             "date": None,

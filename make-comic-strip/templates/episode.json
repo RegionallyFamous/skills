@@ -23,6 +23,27 @@
     "lettering": "pending",
     "status": "pending"
   },
+  "qa_artifacts": {
+    "review_packet": null,
+    "contact_sheet": null,
+    "qa_crops": null,
+    "thumbnail_preview": null,
+    "lint_report": null
+  },
+  "approval": {
+    "codex_qa": {
+      "status": "pending",
+      "date": null,
+      "notes": ""
+    },
+    "human": {
+      "status": "pending",
+      "reviewer": "Nick",
+      "date": null,
+      "notes": ""
+    }
+  },
+  "defects": [],
   "easter_eggs": [
     "{{EASTER_EGG_ID}}"
   ],

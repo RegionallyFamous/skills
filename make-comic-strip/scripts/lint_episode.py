@@ -10,20 +10,30 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from PIL import Image
 
-DEFAULT_STATUSES = {
+
+STATUSES = {
     "idea",
     "scripted",
     "art_draft",
     "lettered",
     "qa_needed",
+    "qa_ready",
     "approved",
     "published",
     "retired",
 }
-MATERIALIZED_STATUSES = {"art_draft", "lettered", "qa_needed", "approved", "published"}
-LETTERED_STATUSES = {"lettered", "qa_needed", "approved", "published"}
-APPROVED_STATUSES = {"approved", "published"}
+MATERIALIZED_STATUSES = {"art_draft", "lettered", "qa_needed", "qa_ready", "approved", "published"}
+LETTERED_STATUSES = {"lettered", "qa_needed", "qa_ready", "approved", "published"}
+CANONICAL_STATUSES = {"qa_needed", "qa_ready", "approved", "published"}
+QA_ARTIFACT_STATUSES = {"qa_ready", "approved", "published"}
+HUMAN_APPROVAL_STATUSES = {"approved", "published"}
+CODEX_QA_STATUSES = {"pending", "passed", "failed"}
+HUMAN_STATUSES = {"pending", "approved", "rejected"}
+DEFECT_CLOSED_STATUSES = {"resolved", "accepted_exception"}
+QA_ARTIFACT_KEYS = ["review_packet", "contact_sheet", "qa_crops", "thumbnail_preview", "lint_report"]
+EXPECTED_SIZE = (2172, 724)
 
 
 def default_production_dir() -> Path:
@@ -52,12 +62,101 @@ def add_error(errors: list[str], episode_id: str, message: str) -> None:
     errors.append(f"{episode_id}: {message}")
 
 
+def check_required_object(errors: list[str], episode_id: str, parent: dict, field: str) -> dict:
+    value = parent.get(field)
+    if not isinstance(value, dict):
+        add_error(errors, episode_id, f"missing required object: {field}")
+        return {}
+    return value
+
+
+def check_path_exists(
+    production_dir: Path,
+    errors: list[str],
+    episode_id: str,
+    label: str,
+    value: str | None,
+) -> Path | None:
+    path = resolve_path(production_dir, value)
+    if not value:
+        add_error(errors, episode_id, f"missing path: {label}")
+        return None
+    if path and not path.exists():
+        add_error(errors, episode_id, f"{label} does not exist: {path}")
+    return path
+
+
+def validate_approval(episode: dict, status: str, episode_id: str, errors: list[str]) -> None:
+    approval = check_required_object(errors, episode_id, episode, "approval")
+    codex_qa = approval.get("codex_qa") if isinstance(approval.get("codex_qa"), dict) else {}
+    human = approval.get("human") if isinstance(approval.get("human"), dict) else {}
+    if not codex_qa:
+        add_error(errors, episode_id, "missing approval.codex_qa object")
+    if not human:
+        add_error(errors, episode_id, "missing approval.human object")
+
+    codex_status = codex_qa.get("status")
+    if codex_status not in CODEX_QA_STATUSES:
+        add_error(errors, episode_id, "approval.codex_qa.status must be pending, passed, or failed")
+    if status in QA_ARTIFACT_STATUSES and codex_status != "passed":
+        add_error(errors, episode_id, "qa_ready/approved episodes require approval.codex_qa.status=passed")
+    if codex_status == "passed" and not codex_qa.get("date"):
+        add_error(errors, episode_id, "passed Codex QA requires approval.codex_qa.date")
+
+    human_status = human.get("status")
+    if human_status not in HUMAN_STATUSES:
+        add_error(errors, episode_id, "approval.human.status must be pending, approved, or rejected")
+    if human.get("reviewer") != "Nick":
+        add_error(errors, episode_id, "approval.human.reviewer must be Nick")
+    if status in HUMAN_APPROVAL_STATUSES:
+        if human_status != "approved":
+            add_error(errors, episode_id, "approved/published episodes require explicit human approval")
+        if not human.get("date"):
+            add_error(errors, episode_id, "approved/published episodes require approval.human.date")
+
+
+def validate_defects(production_dir: Path, episode: dict, status: str, episode_id: str, errors: list[str]) -> None:
+    defects = episode.get("defects")
+    if not isinstance(defects, list):
+        add_error(errors, episode_id, "defects must be a list")
+        return
+    for index, defect in enumerate(defects, start=1):
+        label = f"defect {index}"
+        if not isinstance(defect, dict):
+            add_error(errors, episode_id, f"{label} must be an object")
+            continue
+        for field in ["area", "severity", "description", "status"]:
+            if not defect.get(field):
+                add_error(errors, episode_id, f"{label} missing {field}")
+        defect_status = defect.get("status")
+        if status in QA_ARTIFACT_STATUSES and defect_status not in DEFECT_CLOSED_STATUSES:
+            add_error(errors, episode_id, f"{label} is still open")
+        if defect.get("resolution_method") == "manual_repair_exception":
+            before = check_path_exists(production_dir, errors, episode_id, f"{label} before artifact", defect.get("before"))
+            after = check_path_exists(production_dir, errors, episode_id, f"{label} after artifact", defect.get("after"))
+            if before and after and before == after:
+                add_error(errors, episode_id, f"{label} manual repair before/after artifacts must differ")
+
+
 def validate_episode(production_dir: Path, episode: dict, statuses: set[str], errors: list[str]) -> None:
     issue = str(episode.get("issue", "")).strip()
     slug = str(episode.get("slug", "")).strip()
     episode_id = issue or slug or "<unknown>"
 
-    for field in ["issue", "slug", "title", "status", "premise", "script_beats", "assets", "qa", "publication"]:
+    for field in [
+        "issue",
+        "slug",
+        "title",
+        "status",
+        "premise",
+        "script_beats",
+        "assets",
+        "qa",
+        "qa_artifacts",
+        "approval",
+        "defects",
+        "publication",
+    ]:
         if field not in episode:
             add_error(errors, episode_id, f"missing required field: {field}")
 
@@ -73,12 +172,12 @@ def validate_episode(production_dir: Path, episode: dict, statuses: set[str], er
     beats = episode.get("script_beats")
     if not isinstance(beats, list) or len(beats) != 4:
         add_error(errors, episode_id, "script_beats must contain exactly four panel beats")
-    elif status in {"scripted", "art_draft", "lettered", "qa_needed", "approved", "published"}:
+    elif status in {"scripted", "art_draft", "lettered", "qa_needed", "qa_ready", "approved", "published"}:
         for index, beat in enumerate(beats, start=1):
             if not str(beat).strip():
                 add_error(errors, episode_id, f"script beat {index} is empty")
 
-    assets = episode.get("assets") if isinstance(episode.get("assets"), dict) else {}
+    assets = check_required_object(errors, episode_id, episode, "assets")
     for field in ["folder", "art", "lettering", "final"]:
         if not assets.get(field):
             add_error(errors, episode_id, f"missing asset path: {field}")
@@ -103,29 +202,34 @@ def validate_episode(production_dir: Path, episode: dict, statuses: set[str], er
         if final_path and not final_path.exists():
             add_error(errors, episode_id, f"final image does not exist: {final_path}")
 
-    if final_path:
-        expected_prefix = f"the_loop-{issue}-{slug}-final"
-        if not final_path.name.startswith(expected_prefix) or final_path.suffix.lower() != ".png":
-            add_error(errors, episode_id, f"final filename should start with {expected_prefix} and end in .png")
-    if lettering_path:
-        expected_lettering = f"the_loop-{issue}-{slug}-lettering.json"
-        if lettering_path.name not in {expected_lettering, "lettering-spec.json"}:
-            add_error(errors, episode_id, f"lettering spec should be {expected_lettering} or lettering-spec.json")
+    if status in CANONICAL_STATUSES:
+        expected_names = {
+            "art": f"the_loop-{issue}-{slug}-art.png",
+            "lettering": f"the_loop-{issue}-{slug}-lettering.json",
+            "final": f"the_loop-{issue}-{slug}-final.png",
+        }
+        for field, expected_name in expected_names.items():
+            path = resolve_path(production_dir, assets.get(field))
+            if path and path.name != expected_name:
+                add_error(errors, episode_id, f"{field} filename must be canonical: {expected_name}")
 
-    qa = episode.get("qa") if isinstance(episode.get("qa"), dict) else {}
-    if not qa:
-        add_error(errors, episode_id, "missing qa object")
+    if final_path and final_path.exists() and status in LETTERED_STATUSES:
+        with Image.open(final_path) as image:
+            if image.size != EXPECTED_SIZE:
+                add_error(errors, episode_id, f"final image must be {EXPECTED_SIZE[0]}x{EXPECTED_SIZE[1]}, got {image.width}x{image.height}")
+
+    qa = check_required_object(errors, episode_id, episode, "qa")
     paige_glasses = qa.get("paige_glasses")
     if paige_glasses not in {"required", "planned", "verified", "not_applicable"}:
         add_error(errors, episode_id, "missing Paige glasses requirement or verification")
-    elif status in APPROVED_STATUSES and paige_glasses != "verified":
-        add_error(errors, episode_id, "approved episodes must verify Paige glasses")
+    elif status in QA_ARTIFACT_STATUSES and paige_glasses != "verified":
+        add_error(errors, episode_id, "qa_ready/approved episodes must verify Paige glasses")
 
     laptop_note = qa.get("laptop_screen_direction")
     if laptop_note not in {"required", "planned", "verified", "not_applicable"}:
         add_error(errors, episode_id, "missing laptop screen direction note")
-    elif status in APPROVED_STATUSES and laptop_note != "verified":
-        add_error(errors, episode_id, "approved episodes must verify laptop screen direction")
+    elif status in QA_ARTIFACT_STATUSES and laptop_note != "verified":
+        add_error(errors, episode_id, "qa_ready/approved episodes must verify laptop screen direction")
 
     if not qa.get("generated_text"):
         add_error(errors, episode_id, "missing generated-text QA note")
@@ -133,6 +237,14 @@ def validate_episode(production_dir: Path, episode: dict, statuses: set[str], er
         add_error(errors, episode_id, "missing lettering QA note")
     if not qa.get("status"):
         add_error(errors, episode_id, "missing QA status")
+
+    qa_artifacts = check_required_object(errors, episode_id, episode, "qa_artifacts")
+    if status in QA_ARTIFACT_STATUSES:
+        for key in QA_ARTIFACT_KEYS:
+            check_path_exists(production_dir, errors, episode_id, f"qa_artifacts.{key}", qa_artifacts.get(key))
+
+    validate_approval(episode, status, episode_id, errors)
+    validate_defects(production_dir, episode, status, episode_id, errors)
 
 
 def main() -> int:
@@ -149,7 +261,7 @@ def main() -> int:
 
     tracker = json.loads(tracker_path.read_text(encoding="utf-8"))
     episodes = tracker.get("episodes", [])
-    statuses = set(tracker.get("statuses") or DEFAULT_STATUSES)
+    statuses = set(tracker.get("statuses") or STATUSES)
     selected_issues = set(args.issue or [])
     if selected_issues:
         episodes = [episode for episode in episodes if str(episode.get("issue")) in selected_issues]
@@ -163,6 +275,13 @@ def main() -> int:
     for slug, count in sorted(slug_counts.items()):
         if slug and count > 1:
             errors.append(f"tracker: duplicate slug: {slug}")
+
+    unknown_statuses = statuses - STATUSES
+    if unknown_statuses:
+        errors.append(f"tracker: unknown statuses configured: {', '.join(sorted(unknown_statuses))}")
+    missing_statuses = STATUSES - statuses
+    if missing_statuses:
+        errors.append(f"tracker: required statuses missing: {', '.join(sorted(missing_statuses))}")
 
     for episode in episodes:
         validate_episode(production_dir, episode, statuses, errors)

@@ -61,6 +61,22 @@ def crop_box(width: int, height: int, panel: int, rel_box: tuple[float, float, f
     )
 
 
+def crop_override(episode: dict, kind: str, panel: int, fallback: tuple[float, float, float, float]) -> tuple[float, float, float, float]:
+    overrides = episode.get("qa_crop_overrides")
+    if not isinstance(overrides, dict):
+        return fallback
+    kind_overrides = overrides.get(kind)
+    if not isinstance(kind_overrides, dict):
+        return fallback
+    value = kind_overrides.get(str(panel + 1))
+    if not isinstance(value, list) or len(value) != 4:
+        return fallback
+    try:
+        return tuple(float(item) for item in value)  # type: ignore[return-value]
+    except (TypeError, ValueError):
+        return fallback
+
+
 def make_tile(
     image: Image.Image,
     label: str,
@@ -117,6 +133,7 @@ def main() -> int:
         image = Image.open(final_path).convert("RGB")
         for panel in range(4):
             for kind, rel_box, cover in base_crop_specs:
+                rel_box = crop_override(episode, kind, panel, rel_box)
                 box = crop_box(image.width, image.height, panel, rel_box)
                 crop = image.crop(box)
                 label = f"{issue} p{panel + 1} {kind}"

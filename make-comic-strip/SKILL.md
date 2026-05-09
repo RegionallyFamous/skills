@@ -24,11 +24,16 @@ For ongoing `the_loop()` work, keep reusable process files in this skill and liv
 Use these helper scripts when making or reviewing batches:
 
 - `scripts/new_episode.py`: creates the next numbered episode folder, appends starter metadata, and writes a strip brief.
-- `scripts/lint_episode.py`: validates required fields, status, duplicate issue/slug, Paige glasses QA, laptop-screen notes, final image path, and lettering spec.
+- `scripts/migrate_canonical_assets.py`: migrates existing strips to canonical `art`, `lettering`, and `final` filenames while preserving older assets as variants.
+- `scripts/lint_episode.py`: validates required fields, status, duplicate issue/slug, canonical filenames, exact dimensions, Paige glasses QA, laptop-screen notes, QA artifacts, defects, and approval state.
 - `scripts/build_contact_sheet.py`: creates a batch review sheet from recorded final images.
-- `scripts/build_qa_crops.py`: creates face, laptop, and lettering crop sheets for visual QA.
+- `scripts/build_qa_crops.py`: creates all-panel face, laptop, and lettering crop sheets for visual QA.
+- `scripts/build_review_packet.py`: creates a batch review packet and moves Codex-checked episodes to `qa_ready`.
+- `scripts/promote_variant.py`: promotes a regenerated candidate to canonical assets, archives the previous canonical assets, and resets approval for review.
 
-New `the_loop()` briefs should include one clear WordPress/workflow premise, four panel beats, Paige/Dash continuity rules, no generated readable text, laptop screen orientation instructions, and one optional subtle easter egg slot.
+New `the_loop()` briefs should include one clear WordPress/workflow premise, four panel beats, Paige/Dash continuity rules, no generated readable text, laptop screen orientation instructions, one optional subtle easter egg slot, and the regenerate-first policy for character or object failures.
+
+Codex can mark an episode `qa_ready` after lint and review artifacts pass. Only explicit human approval by Nick can move an episode to `approved` or `published`.
 
 ## Workflow
 
@@ -52,6 +57,7 @@ New `the_loop()` briefs should include one clear WordPress/workflow premise, fou
    - For Paige Post, reject or repair any appearance without visible rounded dark-rimmed glasses, including side views and tiny background poses.
    - Reject and regenerate any art where UI/content appears on the outside back of a laptop.
    - Regenerate the art before lettering if a physical object is wrong or the panel flow is confusing.
+   - Treat bad Paige glasses, face consistency, hands, laptop orientation, or screen logic as blocker defects. Regenerate first; use manual repair only as a recorded exception with before/after QA crops.
 
 4. Letter deterministically.
    - Prefer `scripts/letter_comic.py` for speech balloons, mastheads, and export PNGs.
@@ -71,6 +77,7 @@ New `the_loop()` briefs should include one clear WordPress/workflow premise, fou
    - Fix tails that point to the wrong character, text that feels cramped, or balloons that cover acting.
    - Fix any balloon whose text is not visually centered, instantly readable, or logically clear.
    - If the joke reads muddy, rewrite the dialogue and re-letter before final delivery.
+   - Build a review packet for batches before approval. Review packets must include a contact sheet, all-panel QA crops, thumbnail preview, lint report, and `qa-review.md`.
 
 ## Lettering Script
 
