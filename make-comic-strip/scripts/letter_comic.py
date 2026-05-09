@@ -11,7 +11,7 @@ from typing import Iterable
 from PIL import Image, ImageDraw, ImageFont
 
 
-DEFAULT_DIALOGUE_FONT = "/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf"
+DEFAULT_DIALOGUE_FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
 DEFAULT_FALLBACK_FONT = "/System/Library/Fonts/Supplemental/Comic Sans MS Bold.ttf"
 DEFAULT_TITLE_FONT = "/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf"
 SKILL_DIR = Path(__file__).resolve().parents[1]
@@ -192,9 +192,9 @@ def draw_balloon(
 ) -> None:
     width, height = image_size
     x1, y1, x2, y2 = scaled_box(item["box"], width, height)
-    fill = tuple(item.get("fill", [255, 255, 255, 248]))
+    fill = tuple(item.get("fill", [255, 255, 255, 255]))
     outline = tuple(item.get("outline", [18, 18, 18, 255]))
-    stroke = int(item.get("stroke", 4))
+    stroke = int(item.get("stroke", 5))
     radius = int(item.get("radius", 20))
     tail = item.get("tail")
 

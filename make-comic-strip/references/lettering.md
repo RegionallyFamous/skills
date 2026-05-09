@@ -8,13 +8,14 @@ Use three levels:
 - Dialogue: largest and highest contrast; readable at preview size.
 - Metadata: issue number, episode title, or date; small and unobtrusive.
 
-For a 2000-2400px wide strip, dialogue usually needs 28-40px type depending on font and balloon size. If preview readability matters, choose larger text and fewer words. The dialogue must be legible in the Codex/chat preview, not merely at original size.
+For a 2000-2400px wide strip, dialogue usually needs 30-40px type depending on font and balloon size. If preview readability matters, choose larger text, fewer words, fully opaque white balloons, and a strong black outline. The dialogue must be legible in the Codex/chat preview, not merely at original size.
 
 ## Font Choices
 
 Prefer installed rounded fonts with clean counters and strong shapes. Good local defaults on macOS:
 
-- Primary dialogue: `/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf`
+- Primary dialogue: `/System/Library/Fonts/Supplemental/Arial Bold.ttf`
+- Softer dialogue fallback: `/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf`
 - Alternate dialogue only for a looser hand-lettered feel: `/System/Library/Fonts/Supplemental/ChalkboardSE.ttc`
 - Fallback dialogue: `/System/Library/Fonts/Supplemental/Comic Sans MS Bold.ttf`
 - Masthead: `/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf`
@@ -23,7 +24,7 @@ If a dedicated comic lettering font is available in the project, use it for dial
 
 ## Balloon Placement
 
-Place balloons in the upper third when the art leaves room there. Keep tails short and angled toward the mouth or face, not the body. Avoid tails crossing another balloon, a face, or the key prop.
+Place balloons in the upper third when the art leaves room there, but avoid hugging the panel border. On `2172 x 724` strips, leave roughly 50-60px from the top edge in non-title panels when possible, and keep first-panel balloons below the masthead safe area. Keep tails short and angled toward the mouth or face, not the body. Avoid tails crossing another balloon, a face, or the key prop.
 
 In two-speaker panels, left character's balloon should usually sit left of right character's balloon. The reader should never have to guess which balloon comes first.
 

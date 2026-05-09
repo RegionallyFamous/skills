@@ -41,9 +41,9 @@ Do not place the logo in the last panel by default. If a user asks for a special
 
 ## Balloon Defaults
 
-- Use `/System/Library/Fonts/Supplemental/Arial Rounded Bold.ttf`.
-- Use white rounded rectangles with strong black outlines.
-- Start dialogue around 28-32px for typical balloons.
+- Use `/System/Library/Fonts/Supplemental/Arial Bold.ttf` for crisp dialogue.
+- Use fully opaque white rounded rectangles with strong black outlines.
+- Start dialogue around 30-34px for typical balloons.
 - Manually line-break important balloons.
 - Put balloons in the upper third when possible, but keep panel 1 clear of the masthead.
 
