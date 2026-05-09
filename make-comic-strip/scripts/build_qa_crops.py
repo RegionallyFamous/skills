@@ -100,10 +100,10 @@ def main() -> int:
     selected_issues = parse_issues(args.issues)
     font = load_font(16, bold=True)
 
-    crop_specs = [
-        ("face", 0, (0.02, 0.10, 0.66, 0.70), True),
-        ("laptop", 0, (0.14, 0.30, 0.92, 0.92), True),
-        ("lettering", 0, (0.00, 0.00, 1.00, 0.48), False),
+    base_crop_specs = [
+        ("face", (0.02, 0.10, 0.66, 0.76), True),
+        ("laptop", (0.14, 0.30, 0.92, 0.92), True),
+        ("lettering", (0.00, 0.00, 1.00, 0.50), False),
     ]
 
     tiles = []
@@ -115,11 +115,12 @@ def main() -> int:
         if not final_path.exists():
             continue
         image = Image.open(final_path).convert("RGB")
-        for kind, panel, rel_box, cover in crop_specs:
-            box = crop_box(image.width, image.height, panel, rel_box)
-            crop = image.crop(box)
-            label = f"{issue} {kind}"
-            tiles.append(make_tile(crop, label, (args.tile_width, args.tile_height), font, cover=cover))
+        for panel in range(4):
+            for kind, rel_box, cover in base_crop_specs:
+                box = crop_box(image.width, image.height, panel, rel_box)
+                crop = image.crop(box)
+                label = f"{issue} p{panel + 1} {kind}"
+                tiles.append(make_tile(crop, label, (args.tile_width, args.tile_height), font, cover=cover))
 
     if not tiles:
         raise SystemExit("No final images found for QA crop sheet.")
