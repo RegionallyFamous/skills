@@ -23,12 +23,14 @@ For `the_loop()` strips, keep the tone pro-WordPress: the joke targets the share
 2. Generate unlettered art.
    - Use the image-generation skill when bitmap art is needed.
    - Prompt for no readable words, no letters, no numbers, no speech-balloon text, and no screen text.
+   - For `the_loop()`, explicitly prompt Paige Post with rounded dark-rimmed glasses every time she appears; glasses are mandatory character continuity, not optional styling.
    - Ask for blank/abstract UI screens; never put the joke on a generated screen.
    - For laptop/computer scenes, explicitly specify which side the screen faces. If the outside back lid faces the viewer, it must be a plain lid with no UI blocks, browser chrome, buttons, glow, page layouts, or screen content.
    - When characters are behind or across from a laptop, the viewer should see only the plain back lid; visible screen UI is allowed only when the viewer is on the same side as the characters.
 
 3. Inspect the art before lettering.
    - Check panel order, character consistency, screen orientation, empty balloon space, and whether the action reads without text.
+   - For Paige Post, reject or repair any appearance without visible rounded dark-rimmed glasses, including side views and tiny background poses.
    - Reject and regenerate any art where UI/content appears on the outside back of a laptop.
    - Regenerate the art before lettering if a physical object is wrong or the panel flow is confusing.
 
