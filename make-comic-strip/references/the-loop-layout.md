@@ -46,6 +46,8 @@ Do not place the logo in the last panel by default. If a user asks for a special
 - Start dialogue around 30-34px for typical balloons.
 - Manually line-break important balloons.
 - Put balloons in the upper third when possible, but keep panel 1 clear of the masthead.
+- Treat `tail` coordinates as speaker targets. Let the renderer shorten tails by default so they point cleanly without running into faces, hands, laptop screens, props, or the title area.
+- Prefer short, narrow tails: default `tail_end_ratio: 0.48`, `max_tail_length: 130`, and `tail_width: 18` unless a panel needs a custom adjustment.
 
 ## QA
 

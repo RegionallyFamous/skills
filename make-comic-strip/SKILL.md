@@ -40,6 +40,8 @@ For `the_loop()` strips, keep the tone pro-WordPress: the joke targets the share
    - Treat the logo, episode title, and issue number as protected title areas. Do not place speech balloons where they touch or overlap those areas.
    - Use `/System/Library/Fonts/Supplemental/Arial Bold.ttf` for dialogue when crisp preview readability matters. Keep Arial Rounded Bold for masthead/episode title unless the user asks for a looser hand-lettered look.
    - Use manual line breaks in every important balloon; do not rely on auto-wrapping for final polish.
+   - Treat each balloon tail coordinate as the speaker target, not the literal tail tip. The renderer shortens tails by default so they point toward the mouth/face without stabbing into the character art.
+   - Keep balloon boxes on an obvious left-to-right reading path, with tails that do not cross faces, hands, props, title art, or other balloons.
    - Store the unlettered art and final lettered output together.
    - Keep text large enough to read in the chat preview, not only at full resolution.
 
@@ -85,6 +87,8 @@ The spec file is JSON:
       "text": "I found the\nfinal draft.",
       "box": [58, 132, 292, 226],
       "tail": [232, 302],
+      "tail_end_ratio": 0.48,
+      "max_tail_length": 130,
       "max_font_size": 30,
       "min_font_size": 23
     },
@@ -107,7 +111,7 @@ Read `references/lettering.md` when designing or fixing typography. Core default
 
 - Use deterministic post-lettering for all final comics.
 - Use large Arial Bold dialogue, strong black outlines, fully opaque white balloons, and generous inner padding.
-- Keep balloon tails short, avoid crossing faces, and make left-to-right reading order obvious.
+- Keep balloon tails short, point them toward the speaker's mouth/face, avoid crossing faces, and make left-to-right reading order obvious.
 - Use a masthead style distinct from speech balloons so the title is not mistaken for dialogue.
 - Keep all balloons outside the masthead/title safe area. The lettering script rejects balloon boxes that overlap the masthead, episode title, or issue marker.
 - For `the_loop()` desk scenes, use the #011 first-panel masthead layout from `references/the-loop-layout.md`.

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 from typing import Iterable
 
@@ -111,6 +112,10 @@ def rects_intersect(first: tuple[int, int, int, int], second: tuple[int, int, in
     return first[0] < second[2] and first[2] > second[0] and first[1] < second[3] and first[3] > second[1]
 
 
+def clamp(value: float, minimum: float, maximum: float) -> float:
+    return max(minimum, min(maximum, value))
+
+
 def text_rect(draw: ImageDraw.ImageDraw, position: tuple[int, int], text: str, font: ImageFont.FreeTypeFont) -> tuple[int, int, int, int]:
     x, y = position
     box = draw.textbbox((x, y), text, font=font)
@@ -199,10 +204,28 @@ def draw_balloon(
     tail = item.get("tail")
 
     if tail:
-        tx, ty = scaled_box(tail, width, height)
-        mid = (x1 + x2) // 2
-        tail_half_width = int(item.get("tail_width", 24))
-        triangle = [(mid - tail_half_width, y2 - 2), (mid + tail_half_width, y2 - 2), (tx, ty)]
+        target_x, target_y = scaled_box(tail, width, height)
+        if item.get("tail_base"):
+            base_x, base_y = scaled_box(item["tail_base"], width, height)
+        else:
+            base_x, base_y = (x1 + x2) // 2, y2 - 2
+
+        if item.get("tail_is_tip"):
+            tx, ty = target_x, target_y
+        else:
+            distance = math.hypot(target_x - base_x, target_y - base_y)
+            max_length = float(item.get("max_tail_length", 130))
+            min_length = float(item.get("min_tail_length", 34))
+            ratio = clamp(float(item.get("tail_end_ratio", 0.48)), 0.15, 1.0)
+            length = min(distance, max(min(distance * ratio, max_length), min_length))
+            if distance:
+                tx = round(base_x + ((target_x - base_x) / distance) * length)
+                ty = round(base_y + ((target_y - base_y) / distance) * length)
+            else:
+                tx, ty = target_x, target_y
+
+        tail_half_width = int(item.get("tail_width", 18))
+        triangle = [(base_x - tail_half_width, base_y), (base_x + tail_half_width, base_y), (tx, ty)]
         draw.polygon(triangle, fill=fill)
         draw.line(triangle + [triangle[0]], fill=outline, width=stroke)
 
@@ -223,13 +246,13 @@ def draw_balloon(
         min_size,
     )
     total_height = lines_height(draw, lines, font, leading)
-    y = y1 + ((y2 - y1) - total_height) / 2
+    y = round(y1 + ((y2 - y1) - total_height) / 2)
     color = tuple(item.get("color", [18, 18, 18, 255]))
     for line in lines:
         box = draw.textbbox((0, 0), line, font=font)
         line_width = box[2] - box[0]
         line_height = box[3] - box[1]
-        x = x1 + ((x2 - x1) - line_width) / 2 - box[0]
+        x = round(x1 + ((x2 - x1) - line_width) / 2 - box[0])
         draw.text((x, y - box[1]), line, font=font, fill=color)
         y += line_height + leading
 

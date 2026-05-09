@@ -26,6 +26,10 @@ If a dedicated comic lettering font is available in the project, use it for dial
 
 Place balloons in the upper third when the art leaves room there, but avoid hugging the panel border. On `2172 x 724` strips, leave roughly 50-60px from the top edge in non-title panels when possible, and keep first-panel balloons below the masthead safe area. Keep tails short and angled toward the mouth or face, not the body. Avoid tails crossing another balloon, a face, or the key prop.
 
+Treat tail coordinates as speaker targets. The visible tail should usually stop before the mouth/face instead of touching it; a reader only needs direction. In `scripts/letter_comic.py`, this is handled by `tail_end_ratio` and `max_tail_length`, with defaults chosen for the standard `2172 x 724` strip. Use `tail_is_tip: true` only when a spec deliberately needs an exact tail endpoint.
+
+Keep tails narrow enough to feel like lettering, not arrows. The default `tail_width` is 18px. Use a custom `tail_base` when the box center would send the tail through an eye, hand, laptop, logo, or important acting beat.
+
 In two-speaker panels, left character's balloon should usually sit left of right character's balloon. The reader should never have to guess which balloon comes first.
 
 Use rounded rectangles for a clean production baseline. Use cloud, jagged, or wavy balloons only when the balloon shape itself is part of the joke or emotion.
@@ -76,11 +80,13 @@ Before final delivery, inspect the rendered PNG and ask:
 - Does each balloon contain one clear thought?
 - Are all important line breaks intentional?
 - Is every balloon visually centered?
+- Does every text line sit on whole pixels, with no fractional-position blur?
 - Is the title safe area clear of every balloon and tail?
 - Does the title layout match the #011 first-panel masthead unless the user asked for a variant?
 - Does the logo have a clean transparent edge, or is it in a plain reserved title area?
 - Does the title/logo feel structurally placed rather than pasted onto the scene?
 - Are tails pointing to the correct speaker without crossing other tails?
+- Do tails point toward mouths/faces while stopping before they enter the character drawing?
 - Is the punchline shorter than the setup?
 - Would the text still read after the image is scaled down in chat?
 
